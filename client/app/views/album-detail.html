@@ -1,0 +1,66 @@
+<div *ngIf="album" class='cuadro artist-detail'>
+
+    <div id="artist-head-card " class="">
+        <div class=" cuadro row">
+            <div class="margen image-detail col-3">
+                <img src="{{url+'get-image-album/' + album.image}}" />
+            </div>
+
+
+            <div class="margen data col-6">
+                <div class="row">
+                    <h1>{{album.title}}</h1>
+                    <p>{{album.year}}</p>
+                    <p>{{album.description}}</p>
+                </div>
+
+
+                <div class="marg-bot row" *ngIf="identity.role == 'SUPER_ADMIN'">
+                    <div class="col-3"><a [routerLink]="['/song-add/',album._id]" class="btn btn-sm btn-warning">
+                            Añadir Cancion
+                        </a>
+                    </div>
+                    <!--<div class="col-4"><a href="#" class="btn btn-sm btn-danger">Eliminar Album</a></div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row linea"></div>
+    <div id="gallery-albums" class="">
+        <!--LISTAR LAS CANCIONES-->
+        <div *ngIf="song!='null'" class="album-list row">
+            <ul class="album-list row">
+                <li *ngFor="let song of song" class="col-3 album-item">
+                    <div class="album-image">
+                        <audio controls>
+                            <source src="{{url + 'get-file-song/'+ song.file}}" type="audio/Mpeg" />
+                            Your Browser Does not support de Media Mp3
+
+                        </audio>
+                    </div>
+                    <div class="album-name">
+                        <p>
+                            <a [routerLink]="['/album-detail/',album._id]">
+                                {{song.name}}
+                            </a>
+                        </p>
+                        <p>
+                            <a [routerLink]="['/artist-edit/',artist._id]">
+                                {{song.duration}}, min
+                            </a>
+                        </p>
+                        <div *ngIf="identity.role == 'SUPER_ADMIN'">
+                            <a [routerLink]="['/album-edit/',album._id]" class="btn btn-sm btn-warning">Editar</a>
+                            <a (click)="onDeleteConfirm(album._id)" class="btn btn-sm btn-danger">Borrar</a>
+
+                            <div class="seguro" *ngIf="confirmado == album._id">
+                                <a (click)="onDeleteAlbum(album._id)" class="btn btn-sm btn-danger">Eliminar</a>
+                                <a (click)="onCancelAlbum()" class="btn btn-sm btn-secondary">Cancelar</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

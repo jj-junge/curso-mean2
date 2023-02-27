@@ -1,0 +1,43 @@
+<div *ngIf="identity && identity.role == 'SUPER_ADMIN'">
+    <h1>{{titulo}} </h1>
+    Album: <h4>{{album.title}}</h4>
+
+    <div class="row">
+        <div class="col-6">
+            <div class="centrar">
+                <span class="alert alert-primary" role="alert" *ngIf="alertRegister">
+                    {{alertRegister}}
+                </span>
+            </div>
+            <form #songForm="ngForm" (ngSubmit)="onSubmit()" class="col-md-10 ">
+                <p class="form-floating">
+                    <input type="number" #number="ngModel" name="number" [(ngModel)]="song.number" id="floatingInput"
+                        class="form-control" required />
+                    <label for="floatingInput">Nro Pista</label>
+                    <span class="error" *ngIf="!number.valid && number.touched">
+                        Por favor ingresa el Numero de la Pista
+                    </span>
+                </p>
+                <p class="form-floating">
+                    <input type="text" #name="ngModel" name="name" [(ngModel)]="song.name" class="form-control"
+                        id="floatingInput2" required />
+                    <label for="floatingInput2">Titulo de la Cancion</label>
+                </p>
+                <p class="form-floating">
+                    <input type="text" #duration="ngModel" name="duration" [(ngModel)]="song.duration"
+                        class="form-control" id="floatingInput3" required />
+                    <label for="floatingInput3">Duración</label>
+                    <span class="error" *ngIf="!duration.valid && duration.touched">
+                        Indica la duración
+                    </span>
+                </p>
+
+
+
+                <input type="submit" value="Crear Canción " class="btn btn-success" />
+            </form>
+
+        </div>
+    </div>
+
+</div>

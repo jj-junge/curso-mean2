@@ -1,0 +1,110 @@
+<div *ngIf="identity" class="navigation col-lg-1">
+  <a [routerLink]="['/']">
+    <h1 class="head-title"><span class="bi bi-music-note-beamed"></span>{{title}}</h1>
+  </a>
+  <nav class="nav flex-column" id="navigation">
+    <span><a href="#">
+        <span class="bi bi-search"></span>Buscar
+      </a></span>
+    <span><a [routerLink]="['/artists/',1]" [routerLinkActive]="['active']">
+        <span class="bi bi-stars"></span>Artistas
+      </a></span>
+    <span><a href="#" [routerLinkActive]="['active']">
+        <span class="bi bi-disc"></span>Albums
+      </a></span>
+  </nav>
+
+  <nav class="nav flex-column" id="user_logged">
+    <div class="user-image" id="user-image">
+      <img id="image-logged" src="{{url+ 'get-image-user/' +identity.image}}" />
+    </div>
+    <span id="identity_name">
+      {{identity.name}}
+    </span>
+    <span><a [routerLink]="['/mis-datos']" [routerLinkActive]="['active']">
+        <span class="bi bi-gear-fill"></span>Mis Datos
+      </a></span>
+    <span><a (click)="logOut()" class="btn-logOut">
+        <span class="bi bi-box-arrow-right"></span>Salir
+      </a></span>
+  </nav>
+
+</div>
+
+<div class="container subir">
+  <div *ngIf="identity" class="central col-lg-11">
+    <router-outlet></router-outlet>
+  </div>
+
+
+  <div *ngIf="!identity" class="col-lg-11">
+    <div class="col-lg-6">
+      <h1>Logeate</h1>
+      <div *ngIf="errorMessage">
+        <div class="alert alert-danger" role="alert">
+          <strong>Error</strong> {{errorMessage}}
+        </div>
+      </div>
+      <form #loginForm="ngForm" (ngSubmit)="onSubmit()" class="col-md-7">
+        <p class="form-floating">
+          <input id="lblLogin" type="text" #email="ngModel" name="email" [(ngModel)]="user.email" class="form-control"
+            required />
+          <label for="lblLogin">Correo Electrónico</label>
+          <span class="error" *ngIf="!email.valid && email.touched">
+            El email es Obligatorio
+          </span>
+        </p>
+        <p class="form-floating">
+          <input id="lblLoginPw" type="password" #password="ngModel" name="password" [(ngModel)]="user.password"
+            class="form-control" required />
+          <label for="lblLoginPw">Password</label>
+          <span class="error" *ngIf="!password.valid && password.touched">
+            Por favor ingresa tu password
+          </span>
+        </p>
+        <input type="submit" value="Entrar" class="btn btn-primary" />
+      </form>
+    </div>
+
+    <div class="col-lg-6">
+      <div *ngIf="alertRegister">
+        <div class="alert alert-success" role="alert">
+          {{alertRegister}}
+        </div>
+      </div>
+      <h1>Registrate</h1>
+      <form #registerForm="ngForm" (ngSubmit)="onSubmitRegister()" class="col-md-10">
+        <p>
+          <label>Nombre</label>
+          <input type="text" #name="ngModel" name="name" [(ngModel)]="user_register.name" class="form-control"
+            required />
+          <span class="error" *ngIf="!name.valid && name.touched">
+            Por favor ingresa tu Nombre
+          </span>
+        </p>
+        <p>
+          <label>Apellidos</label>
+          <input type="text" #surname="ngModel" name="surname" [(ngModel)]="user_register.surname" class="form-control"
+            required />
+        </p>
+        <p>
+          <label>Correo Electrónico</label>
+          <input type="text" #email_r="ngModel" name="email_r" [(ngModel)]="user_register.email" class="form-control"
+            required />
+          <span class="error" *ngIf="!email_r.valid && email_r.touched">
+            El email es Obligatorio
+          </span>
+        </p>
+        <p>
+          <label>Password</label>
+          <input type="password" #password_r="ngModel" name="password_r" [(ngModel)]="user_register.password"
+            class="form-control" required />
+          <span class="error" *ngIf="!password_r.valid && password_r.touched">
+            Por favor ingresa tu password
+          </span>
+        </p>
+        <input type="submit" value="Registrar " class="btn btn-primary" />
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,59 @@
+<div *ngIf="artist" class='cuadro artist-detail'>
+
+    <div id="artist-head-card " class="">
+        <div class=" cuadro row">
+            <div class="margen image-detail col-3" *ngIf="artist.image && artist.image != 'null'">
+                <img src="{{url+'get-image-artist/' + artist.image}}" />
+            </div>
+
+
+            <div class="margen data col-6">
+                <div class="row">
+                    <h1>{{artist.name}}</h1>
+                    <p>{{artist.description}}</p>
+                </div>
+
+
+                <div class="marg-bot row" *ngIf="identity.role == 'SUPER_ADMIN'">
+                    <div class="col-3"><a [routerLink]="['/album-add/',artist._id]"
+                            class="btn btn-sm btn-warning">Añadir Album
+                        </a>
+                    </div>
+                    <div class="col-4"><a href="#" class="btn btn-sm btn-danger">Eliminar Album</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row linea"></div>
+    <div id="gallery-albums" *ngIf="albums" class="">
+        <!--LISTAR LOS ALBUMS-->
+        <ul class="album-list row">
+            <li *ngFor="let album of albums" class="col-3 album-item">
+                <div class="album-image">
+                    <img src="{{url+'get-image-album/'+album.image}}" />
+                </div>
+                <div class="album-name">
+                    <p>
+                        <a [routerLink]="['/album-detail/',album._id]">
+                            {{album.title}}
+                        </a>
+                    </p>
+                    <p>
+                        <a [routerLink]="['/artist-edit/',artist._id]">
+                            {{artist.name}}
+                        </a>
+                    </p>
+                    <div *ngIf="identity.role == 'SUPER_ADMIN'">
+                        <a [routerLink]="['/album-edit/',album._id]" class="btn btn-sm btn-warning">Editar</a>
+                        <a (click)="onDeleteConfirm(album._id)" class="btn btn-sm btn-danger">Borrar</a>
+
+                        <div class="seguro" *ngIf="confirmado == album._id">
+                            <a (click)="onDeleteAlbum(album._id)" class="btn btn-sm btn-danger">Eliminar</a>
+                            <a (click)="onCancelAlbum()" class="btn btn-sm btn-secondary">Cancelar</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

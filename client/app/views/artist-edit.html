@@ -1,0 +1,55 @@
+<div class="head-page" *ngIf="identity && (identity.role == 'SUPER_ADMIN' || identity.role == 'ROLE_ADMIN' )">
+
+    <div class="row">
+        <div class="centrar">
+            <h1>{{titulo}}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="centrar">
+            <span class="alert alert-success" role="alert" *ngIf="alertRegister">
+                {{alertRegister}}
+            </span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4 order-1 align-self-center"></div>
+        <div class="col-lg-5 order-2 align-self-center">
+
+            <form #formArtist="ngForm" (ngSubmit)="onSubmit()">
+                <p>
+                    <label>Nombre de Artista</label>
+                    <input type="text" #name="ngModel" name="name" [(ngModel)]="artist.name" class="form-control"
+                        required />
+                    <span class="error" *ngIf="!name.valid && name.touched">
+                        Por favor ingresa un Artista
+                    </span>
+                </p>
+                <p>
+                    <label>Descripción</label>
+                    <input type="text" #description="ngModel" name="description" [(ngModel)]="artist.description"
+                        class="form-control" required />
+                </p>
+                <div *ngIf="isEdit">
+
+                    <div class="image_edit" *ngIf="artist.image && artist.image != 'null'">
+                        <img src="{{url+'get-image-artist/' + artist.image}}" />
+                    </div>
+                    <p>
+                        <label>Imagen</label>
+                        <input type="file" name="image" class="form-control" (change)="fileChangeEvent($event)" />
+                    </p>
+                </div>
+
+                <input type="submit" value="Aceptar" class="btn btn-success" />
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<div *ngIf="!identity || identity.role != 'SUPER_ADMIN'">
+    <h1> Acceso Denegado</h1>
+    <p> Estás en zona prohibida!!!</p>
+    <a [routerLink]="['/']" class="btn btn-sm btn-warning">Volver</a>
+</div>
